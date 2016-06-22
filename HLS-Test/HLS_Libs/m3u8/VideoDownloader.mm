@@ -76,8 +76,8 @@
         }
     }
 
-    
-    /* // 这种方式是一个一个文件进行删除
+    /*
+     // 这种方式是一个一个文件进行删除
      for(int i = 0; i< self.playlist.length; i++)
     {
         NSString* filename = [NSString stringWithFormat:@"id%d",i];

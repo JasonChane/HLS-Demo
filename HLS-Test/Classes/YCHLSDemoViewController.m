@@ -24,7 +24,7 @@
 /** 点播协议 */
 //#define TEST_HLS_URL @"http://devstreaming.apple.com/videos/wwdc/2015/413eflf3lrh1tyo/413/0640/0640.m3u8"
 /** 新增芈月传点播~ */
-#define TEST_HLS_URL @"http://yangchao0033.github.io/hlsSegement/0640.m3u8"
+#define TEST_HLS_URL @"http://192.168.1.60:8000/Desktop/HLS-demo-master/m3u8/index.m3u8"
 
 @interface YCHLSDemoViewController () <M3U8HandlerDelegate, VideoDownloadDelegate>
 
@@ -100,15 +100,11 @@
     [self.httpServer setPort:12345]; // 设置服务器端口
     
     // 获取本地Library/Cache路径下downloads路径
-//    NSString *webPath = [kLibraryCache stringByAppendingPathComponent:kPathDownload];
+    NSString *localWebPath = WebBasePath;
     
-    NSString *webPath = [kLibraryCache stringByAppendingPathComponent:kPathDownload];
-    
-    webPath = WebBasePath;
-    
-    NSLog(@"-------------\nSetting document root: %@\n", webPath);
+    NSLog(@"-------------\nSetting document root: %@\n", localWebPath);
     // 设置服务器路径
-    [self.httpServer setDocumentRoot:webPath];
+    [self.httpServer setDocumentRoot:localWebPath];
     NSError *error;
     if(![self.httpServer start:&error])
     {
@@ -140,10 +136,9 @@
     
     UIButton *downloadButton = sender;
     // 获取本地Library/Cache路径
-    NSString *localDownloadsPath = [kLibraryCache stringByAppendingPathComponent:kPathDownload];
-    
+    NSString *localDownloadsPath = WebBasePath;
     // 获取视频本地路径
-    NSString *filePath = [localDownloadsPath stringByAppendingPathComponent:@"0640/0640.m3u8"];
+    NSString *filePath = [localDownloadsPath stringByAppendingPathComponent:@"0640"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     // 判断视频是否缓存完成，如果完成则播放本地缓存
     if ([fileManager fileExistsAtPath:filePath]) {
@@ -247,14 +242,13 @@
 #pragma mark - 播放本地视频
 - (IBAction)playVideoFromLocal:(id)sender {
     
-    NSString * playurl = [NSString stringWithFormat:@"http://127.0.0.1:12345/0640/0640.m3u8"];
+    NSString * playurl = @"http://127.0.0.1:12345/0640/0640.m3u8";
     NSLog(@"本地视频地址-----%@", playurl);
     
     // 获取本地Library/Cache路径
-    NSString *localDownloadsPath = [kLibraryCache stringByAppendingPathComponent:kPathDownload];
+    NSString *localDownloadsPath = WebBasePath;
     // 获取视频本地路径
-//    NSString *filePath = [localDownloadsPath stringByAppendingPathComponent:@"0640/0640.m3u8"];
-    NSString *filePath = [WebBasePath stringByAppendingPathComponent:@"0640/0640.m3u8"];
+    NSString *filePath = [localDownloadsPath stringByAppendingPathComponent:@"0640/0640.m3u8"];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     // 判断视频是否缓存完成，如果完成则播放本地缓存
@@ -266,6 +260,50 @@
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"当前视频未缓存" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
     }
+}
+
+- (void)checkFilesInPath:(NSString*)path
+{
+    NSError *erro;
+    NSArray *arr = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&erro];
+    NSFileManager *myFileManager=[NSFileManager defaultManager];
+    
+    NSDirectoryEnumerator *myDirectoryEnumerator;
+    
+    myDirectoryEnumerator=[myFileManager enumeratorAtPath:path];
+    
+    //列举目录内容，可以遍历子目录
+    
+    NSLog(@"用enumeratorAtPath:显示目录%@的内容：",path);
+    
+    NSArray *filesArr = [NSArray array];
+    NSMutableDictionary *filesDict = [NSMutableDictionary dictionary];
+    NSMutableArray *lastComponetArr;
+    NSString *keyPath;
+    //把文件和路径提取出来
+    while((path=[myDirectoryEnumerator nextObject])!=nil)
+    {
+        NSLog(@"%@",path);
+        if ([path containsString:@"."] && ![path containsString:@".DS_Store"])
+        {//如果没有. 则是文件夹 是group
+            
+            NSString *tempKeyPath = [path stringByDeletingLastPathComponent];
+            if ([keyPath isEqualToString:tempKeyPath])
+            {
+                [lastComponetArr addObject:[path lastPathComponent]];
+                
+            }
+            else
+            {
+                keyPath = [path stringByDeletingLastPathComponent];
+                lastComponetArr = [NSMutableArray array];
+                [lastComponetArr addObject:[path lastPathComponent]];
+            }
+            
+            [filesDict setValue:lastComponetArr forKey:keyPath];
+        }
+    }
+
 }
 
 - (void)instanceDelloc {

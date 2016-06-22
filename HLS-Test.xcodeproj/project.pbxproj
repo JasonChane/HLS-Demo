@@ -783,7 +783,7 @@
 				TargetAttributes = {
 					1735AA911C58B7FD005AE509 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 4SURL4UGYU;
+						DevelopmentTeam = 45C8V8N862;
 					};
 					1735AAAA1C58B7FE005AE509 = {
 						CreatedOnToolsVersion = 7.2;
@@ -1067,11 +1067,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "HLS-Test/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
-				PRODUCT_BUNDLE_IDENTIFIER = "http---superyang.gitcafe.io-.HLS-Test";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifangchou.HLS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1080,11 +1082,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
 				INFOPLIST_FILE = "HLS-Test/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
-				PRODUCT_BUNDLE_IDENTIFIER = "http---superyang.gitcafe.io-.HLS-Test";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ifangchou.HLS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

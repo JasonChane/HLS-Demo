@@ -38,7 +38,8 @@
         alertView.tag = 900;
         alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
         UITextField *textFiled = [alertView textFieldAtIndex:0];
-        textFiled.text = @"http://yangchao0033.github.io/hlsSegement/0640.m3u8";
+//        textFiled.text = @"http://yangchao0033.github.io/hlsSegement/0640.m3u8";
+        textFiled.text = @"http://192.168.1.60:8000/Desktop/HLS-demo-master/m3u8/Gear1/prog_index.m3u8";
         textFiled.clearButtonMode = UITextFieldViewModeAlways;
         [alertView show];
         
